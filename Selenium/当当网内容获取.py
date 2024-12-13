@@ -16,16 +16,24 @@ chrome_options = Options()
 
 # 创建WebDriver对象
 driver = webdriver.Chrome(service=service, options=chrome_options)
-# 加载有道翻译页面
 
 driver.implicitly_wait(30)# 隐式等待，最多30秒
 
-driver.get("https://fanyi.youdao.com/#/TextTranslate")
-
+driver.get("https://www.dangdang.com/")
+# sleep(1)
 # 获取输入框
-inputs = driver.find_element(By.ID, "js_fanyi_input")
-# 输入内容
-inputs.send_keys("hello")
-
-transTarget = driver.find_element(By.ID, "js_fanyi_output_resultOutput")
-print(transTarget.text)
+key = driver.find_element(By.ID,"key_S")
+key.send_keys("科幻")
+#获取搜索框，点击搜索
+search = driver.find_element(By.CSS_SELECTOR,".search .button")
+search.click()
+# sleep(1)
+#获取商品标题及价格
+for i in range(5):
+    shoplist = driver.find_elements(By.CSS_SELECTOR, ".shoplist li")
+    for li in shoplist:
+        print(li.find_element(By.CSS_SELECTOR, "a").get_attribute("title"))
+        print(li.find_element(By.CSS_SELECTOR, ".search_now_price").text)
+    #获取下一页按钮
+    next = driver.find_element(By.LINK_TEXT,"下一页")
+    next.click()

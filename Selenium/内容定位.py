@@ -17,15 +17,16 @@ chrome_options = Options()
 # 创建WebDriver对象
 driver = webdriver.Chrome(service=service, options=chrome_options)
 
+driver.implicitly_wait(30)# 隐式等待，最多30秒
+
 driver.get("https://fanyi.youdao.com/#/TextTranslate")
-sleep(1)
+
 print(driver.title) # 获取页面title
 print(driver.current_url) # 获取当前页面URL
 
 # 获取输入框
 inputs = driver.find_element(By.ID, "js_fanyi_input")
 inputs.send_keys("hello")
-sleep(1)
 
 print(inputs.text)# 获取元素文本
 print(inputs.size)# 返回元素大小
