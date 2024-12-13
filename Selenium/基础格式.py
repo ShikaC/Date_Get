@@ -14,3 +14,5 @@ chrome_options = Options()
 
 # 创建WebDriver对象
 driver = webdriver.Chrome(service=service, options=chrome_options)
+
+driver.implicitly_wait(30)# 隐式等待，最多30秒
