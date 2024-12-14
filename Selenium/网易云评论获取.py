@@ -35,3 +35,4 @@ for i in range(100):
             writer.writerow([content])
     next = driver.find_element(By.LINK_TEXT, "下一页")
     next.click()
+driver.quit()
