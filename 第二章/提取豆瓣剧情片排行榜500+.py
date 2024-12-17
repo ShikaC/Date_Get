@@ -2,6 +2,7 @@
 import requests
 import re
 import csv
+
 url = "https://movie.douban.com/j/chart/top_list"
 
 for start in range(0,600,20):
@@ -22,16 +23,13 @@ for start in range(0,600,20):
     # print(page_content)
 
     obj = re.compile(r'{"rating":.*?"rank":(?P<No>.*?),"cover_url".*?'
-                     r'"title":"(?P<Name>.*?)".*?"score":"(?P<score>.*?)","actors":.*?"is_watched":false}',re.S)
+                     r'"title":"(?P<Name>.*?)".*?"score":"(?P<score>.*?)"'
+                     r',"actors":.*?"is_watched":false}',re.S)
     result = obj.finditer(page_content)
 
     with open("剧情好片500+.csv","a",encoding="utf-8",newline="") as f:
         csv_writer = csv.writer(f)
         for i in result:
-            # print(i.group("No"))
-            # print(i.group("Name"))
-            # print(i.group("score"))
-
             top500 = i.groupdict()
             csv_writer.writerow(top500.values())
 
