@@ -16,7 +16,7 @@ df_agg = df.groupby(["month", "天气"]).size().reset_index()
 # print(df_agg)
 
 # 设置列名
-df_agg.columns = ["month", "tianqi", "count"]
+df_agg.columns = ["月份", "天气", "次数"]
 # print(df_agg)
 
 # df_agg = df_agg[df_agg["month"]==1][["tianqi","count"]]
@@ -28,19 +28,16 @@ df_agg.columns = ["month", "tianqi", "count"]
 timeline = Timeline()
 timeline.add_schema(play_interval=1000)# 单位毫秒
 
-for month in df_agg["month"].unique():
+for month in df_agg["月份"].unique():
     data = (
-        df_agg[df_agg["month"]==month][["tianqi","count"]]
-        .sort_values(by="count",ascending=True)
+        df_agg[df_agg["月份"]==month][["天气","次数"]]
+        .sort_values(by="次数",ascending=True)
         .values.tolist()
     )
 
     bar = Bar() #柱状图
-    # x:天气名称
-    bar.add_xaxis([x[0] for x in data])
-    # y:出现次数
-    bar.add_yaxis("",[x[1] for x in data])
-
+    bar.add_xaxis([x[0] for x in data])# x:天气名称
+    bar.add_yaxis("",[x[1] for x in data])# y:出现次数
     bar.reversal_axis()#横着
 
     #计数标签放在图形右边
@@ -50,5 +47,4 @@ for month in df_agg["month"].unique():
     bar.set_global_opts(title_opts=opts.TitleOpts(title="台州2024每月天气变化"))
 
     timeline.add(bar,f"{month}月")
-    # 保存图表
     timeline.render("weather.html")

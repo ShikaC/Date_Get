@@ -13,27 +13,26 @@ driver.implicitly_wait(30)# 隐式等待，最多30秒
 def getWeather(url):
     weather_info = []
 
-    # 打开网页
     driver.get(url)
-    sleep(1)  # 等待页面加载
     more = driver.find_element(By.CSS_SELECTOR, '.lishidesc2')
     more.click()
     # 获取所有天气信息的li元素
-    sleep(1)
     weather_elements = driver.find_elements(By.CSS_SELECTOR, ".thrui li")
 
     # 遍历所有天气信息的li元素
     for element in weather_elements:
         day_weather_info = {}
+
         day_weather_info["date_time"] = element.find_element(By.CSS_SELECTOR, "div:nth-of-type(1)").text.split(" ")[0]
 
         high = element.find_element(By.CSS_SELECTOR, "div:nth-of-type(2)").text
         day_weather_info["high"] = high[:high.find("℃")]
+
         low = element.find_element(By.CSS_SELECTOR, "div:nth-of-type(3)").text
         day_weather_info["low"] = low[:low.find("℃")]
+
         day_weather_info["weather"] = element.find_element(By.CSS_SELECTOR, "div:nth-of-type(4)").text
         weather_info.append(day_weather_info)
-
 
     return weather_info
     driver.quit()  # 关闭浏览器
@@ -43,7 +42,7 @@ weathers = []
 
 for month in range(1, 13):
     weather_time = "2024" + ("0" + str(month) if month < 10 else str(month))
-    url = f"https://lishi.tianqi.com/taizhou/{weather_time}.html"  # 移除了错误的引号
+    url = f"https://lishi.tianqi.com/taizhou/{weather_time}.html"
     weather = getWeather(url)
     weathers.append(weather)
 
